@@ -29,13 +29,12 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <input name="name" placeholder="Tên" required className="border p-2 w-full rounded" />
       <input name="email" type="email" placeholder="Email" required className="border p-2 w-full rounded" />
       <textarea name="message" placeholder="Nội dung" required rows={4} className="border p-2 w-full rounded" />
       <button
-        type="button"
-        onClick={handleSubmit}
+        type="submit"
         disabled={status === "sending"}
         className="bg-gray-900 text-white px-4 py-2 rounded disabled:opacity-50"
       >
@@ -43,6 +42,6 @@ export default function ContactForm() {
       </button>
       {status === "success" && <p className="text-green-600">Đã gửi thành công!</p>}
       {status === "error" && <p className="text-red-600">Có lỗi xảy ra, thử lại sau.</p>}
-    </div>
+    </form>
   );
 }

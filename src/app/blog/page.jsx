@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 
 export default function BlogIndexPage() {
@@ -9,9 +10,9 @@ export default function BlogIndexPage() {
       <ul className="space-y-4">
         {posts.map((post) => (
           <li key={post.slug}>
-            <a href={`/blog/${post.slug}`} className="text-lg font-medium underline">
+            <Link href={`/blog/${post.slug}`} className="text-lg font-medium underline">
               {post.title}
-            </a>
+            </Link>
             {post.date && (
               <p className="text-sm text-gray-500">
                 {new Date(post.date).toLocaleDateString("vi-VN")}

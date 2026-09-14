@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
-  
-  basePath: "/my-site",
-  assetPrefix: "/my-site",
+  // basePath và assetPrefix sẽ được action configure-pages tự động thiết lập khi build trên GitHub Pages,
+  // hoặc để trống nếu bạn dùng custom domain (ndh.tech) và dev local.
   images: {
     unoptimized: true, // GitHub Pages không có Image Optimization server
   },

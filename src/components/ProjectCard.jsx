@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 export default function ProjectCard({ project }) {
   return (
-    <a
+    <Link
       href={`/projects/${project.slug}`}
       className="block border rounded-lg p-4 hover:shadow-md transition-shadow"
     >
@@ -9,6 +11,6 @@ export default function ProjectCard({ project }) {
       {project.tech.length > 0 && (
         <p className="text-xs text-gray-400 mt-1">{project.tech.join(" · ")}</p>
       )}
-    </a>
+    </Link>
   );
 }

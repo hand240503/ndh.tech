@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: hand240503/my-site   # đổi thành đúng owner/repo của bạn
+  repo: hand240503/ndh.tech
   branch: main
 
 media_folder: "public/images"

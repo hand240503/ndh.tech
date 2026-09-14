@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { getFeaturedProjects } from "@/lib/projects";
 import ProjectCard from "@/components/ProjectCard";
@@ -24,9 +25,9 @@ export default function HomePage() {
         <ul className="space-y-3">
           {posts.map((post) => (
             <li key={post.slug}>
-              <a href={`/blog/${post.slug}`} className="font-medium underline">
+              <Link href={`/blog/${post.slug}`} className="font-medium underline">
                 {post.title}
-              </a>
+              </Link>
               <p className="text-sm text-gray-500">{post.excerpt}</p>
             </li>
           ))}
