@@ -1,8 +1,10 @@
+const isProd = process.env.NODE_ENV === "production";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
-  // basePath và assetPrefix sẽ được action configure-pages tự động thiết lập khi build trên GitHub Pages,
-  // hoặc để trống nếu bạn dùng custom domain (ndh.tech) và dev local.
+  basePath: isProd ? "/ndh.tech" : "",
+  assetPrefix: isProd ? "/ndh.tech" : "",
   images: {
     unoptimized: true, // GitHub Pages không có Image Optimization server
   },
