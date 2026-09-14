@@ -6,7 +6,8 @@ export function generateStaticParams() {
 }
 
 export default async function ProjectDetailPage({ params }) {
-  const project = await getProjectBySlug(params.slug);
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
 
   return (
     <main>
