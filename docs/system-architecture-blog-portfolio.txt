@@ -1,0 +1,221 @@
+System Architecture
+
+Blog & Portfolio (Static, Zero-Cost)
+
+1. Mục tiêu & ràng buộc thiết kế
+
+Ràng buộc
+
+Mô tả
+
+Chi phí
+
+Không dùng dịch vụ trả phí (hosting, CMS, database)
+
+Sở hữu dữ liệu
+
+Toàn bộ nội dung nằm trong Git repo, không phụ thuộc nền tảng thứ ba
+
+Portable
+
+Có thể rebuild toàn bộ site ở bất kỳ máy nào chỉ với git clone
+
+Hiệu năng
+
+Tải trang nhanh, SEO tốt, không cold start
+
+Nội dung
+
+Viết bằng Markdown, hỗ trợ cả bài blog và case-study dự án (portfolio)
+
+Vận hành
+
+Tự động hoá build/deploy, có giám sát uptime và theo dõi lượt xem
+
+Nguyên lý cốt lõi: Mọi thứ bắt đầu và kết thúc ở Git. Không có backend runtime, không database — toàn bộ site được build sẵn thành file tĩnh (Static Site Generation).
+
+2. Kiến trúc tổng thể
+
+Decap CMS  --git push-->  GitHub Repository (content/ + code)                                  |  push trigger                                  v                          GitHub Actions (CI/CD)                                  |  next build (SSG)                                  v                          Static output (HTML/CSS/JS)                                  |  deploy                                  v                          GitHub Pages  --------->  Nguoi dung                                  |                +-----------------+------------------+                v                                    v        Uptime Robot                              PostHog        (health check dinh ky)             (client-side view tracking)
+
+Đặc điểm: luồng dữ liệu một chiều, không có vòng lặp runtime nào phụ thuộc server. Analytics và monitoring chạy song song, không chặn pipeline chính.
+
+3. Cấu trúc thư mục dự án
+
+my-site/├── content/│   ├── posts/                 # Bài blog│   └── projects/              # Portfolio├── public/images/├── src/app/│   ├── page.jsx               # Trang chủ│   ├── blog/[slug]/page.jsx│   └── projects/[slug]/page.jsx├── src/components/│   ├── BlogContent.jsx│   ├── ProjectCard.jsx│   └── ContactForm.jsx├── src/lib/│   ├── posts.js│   └── projects.js├── admin/config.yml           # Decap CMS collections└── .github/workflows/deploy.yml
+
+4. Content model (schema)
+
+4.1 Blog post (content/posts/*.md)
+
+---title: stringdate: datetags: [string]excerpt: stringcoverImage: string (optional)---Nội dung Markdown...
+
+4.2 Project / Portfolio item (content/projects/*.md)
+
+---title: stringrole: string              # vai trò của bạn trong dự ántech: [string]            # công nghệ sử dụngliveUrl: string (optional)repoUrl: string (optional)coverImage: stringfeatured: boolean         # true -> ghim lên trang chủcompletedAt: date---Mô tả dự án: vấn đề, giải pháp, kết quả...
+
+Lý do tách 2 collection riêng trong Decap CMS: blog và project có field khác nhau (project cần nhiều metadata có cấu trúc hơn: link, tech stack, ảnh cover), nên định nghĩa 2 collection độc lập trong admin/config.yml thay vì dùng chung 1 schema.
+
+5. Luồng vận hành (Data flow)
+
+Author viết nội dung qua Decap CMS (chạy tại /admin, xác thực qua GitHub OAuth) hoặc chỉnh trực tiếp file .md.
+
+Decap commit file Markdown mới/sửa vào nhánh master của repo.
+
+GitHub Actions trigger khi có push vào master: checkout code, cài dependencies (npm ci), chạy next build.
+
+Next.js gọi generateStaticParams() cho cả blog/[slug] và projects/[slug], đọc toàn bộ file trong content/.
+
+remark parse Markdown → AST → HTML; rehype-highlight tô màu code block. Output ra thư mục ./out.
+
+Deploy thư mục ./out lên GitHub Pages qua actions/deploy-pages@v4.
+
+User truy cập — chỉ nhận file HTML/CSS/JS tĩnh, không có request nào chạm tới server logic.
+
+Song song: PostHog script ghi nhận pageview; một GitHub Action riêng (cron hàng tuần) pull thống kê về, lưu JSON dùng cho lần build kế tiếp.
+
+Song song: Uptime Robot ping site mỗi vài phút, gửi cảnh báo nếu downtime.
+
+6. CI/CD Pipeline (.github/workflows/deploy.yml)
+
+name: Deploy site to GitHub Pages on:  push:    branches: ["master"]  workflow_dispatch: permissions:  contents: read  pages: write  id-token: write concurrency:  group: "pages"  cancel-in-progress: false jobs:  build:    runs-on: ubuntu-latest    steps:      - uses: actions/checkout@v4      - uses: actions/setup-node@v4        with:          node-version: "20"          cache: "npm"      - uses: actions/configure-pages@v5        with:          static_site_generator: next      - run: npm ci      - run: npx --no-install next build      - uses: actions/upload-pages-artifact@v3        with:          path: ./out   deploy:    needs: build    runs-on: ubuntu-latest    environment:      name: github-pages      url: ${{ steps.deployment.outputs.page_url }}    steps:      - id: deployment        uses: actions/deploy-pages@v4
+
+7. Tech stack lựa chọn
+
+Thành phần
+
+Công nghệ
+
+Lý do
+
+Framework
+
+Next.js (SSG, output: 'export')
+
+Hỗ trợ generateStaticParams, sinh HTML tĩnh, không cần server
+
+CMS
+
+Decap CMS
+
+Miễn phí, commit thẳng vào Git, không backend riêng
+
+Markdown → HTML
+
+remark + rehype-highlight
+
+Chuẩn, nhẹ, không phụ thuộc dịch vụ ngoài
+
+Hosting
+
+GitHub Pages
+
+Miễn phí vĩnh viễn, tích hợp sẵn với GitHub Actions
+
+CI/CD
+
+GitHub Actions
+
+Miễn phí cho repo public, trigger tự động theo push
+
+Analytics
+
+PostHog (free tier)
+
+Theo dõi pageview, decoupled khỏi build chính
+
+Uptime monitoring
+
+Uptime Robot (free tier)
+
+Cảnh báo khi site down, có status page công khai
+
+Form liên hệ
+
+Formspree / Getform (free tier)
+
+Giải quyết điểm yếu duy nhất của static site: không xử lý được submit
+
+Styling
+
+Tailwind CSS
+
+Không cần build step riêng, phối hợp tốt với SSG
+
+8. Bảo mật
+
+Không có input người dùng nào được render trực tiếp lên trang (nội dung do chính tác giả kiểm soát qua Git) → rủi ro XSS gần như bằng 0 dù dùng dangerouslySetInnerHTML.
+
+Pipeline remark → rehype tự escape HTML tag lạ trong Markdown.
+
+Form liên hệ nên dùng dịch vụ ngoài có sẵn spam-protection (reCAPTCHA/honeypot) thay vì tự xây.
+
+GitHub Actions dùng GITHUB_TOKEN mặc định, không cần lộ secret nào ra ngoài.
+
+9. Giới hạn hiện tại
+
+Giới hạn
+
+Ảnh hưởng
+
+Hướng khắc phục tương lai
+
+Không có backend
+
+Không làm được comment, like real-time
+
+Thêm serverless function (Cloudflare Workers free tier) nếu cần
+
+Build time tăng theo nội dung
+
+Site càng nhiều bài, build càng lâu
+
+Incremental Static Regeneration hoặc chuyển sang Vercel/Netlify khi cần
+
+Không xử lý form tại chỗ
+
+Phải phụ thuộc dịch vụ ngoài (Formspree...)
+
+Chấp nhận đánh đổi vì giữ được zero-cost
+
+Analytics có độ trễ
+
+Lượt xem chỉ cập nhật theo lịch build (hàng tuần)
+
+Tăng tần suất cron nếu cần realtime hơn
+
+10. Lộ trình triển khai (Deployment roadmap)
+
+Giai đoạn 1 — Nền tảng
+
+Khởi tạo repo Next.js, cấu hình output: 'export'
+
+Viết lib/posts.js và lib/projects.js (đọc file, parse frontmatter)
+
+Dựng route blog/[slug] và projects/[slug] với generateStaticParams
+
+Giai đoạn 2 — Content Management
+
+Cài đặt Decap CMS tại /admin, cấu hình 2 collection (posts, projects) trong config.yml
+
+Thiết lập GitHub OAuth cho Decap
+
+Giai đoạn 3 — CI/CD
+
+Viết workflow deploy.yml, kiểm tra GitHub Actions build & deploy thành công
+
+Bật GitHub Pages, trỏ custom domain (nếu có)
+
+Giai đoạn 4 — Vận hành
+
+Tích hợp PostHog script + GitHub Action pull thống kê hàng tuần
+
+Đăng ký Uptime Robot, thiết lập public status page
+
+Gắn form liên hệ qua Formspree/Getform
+
+Giai đoạn 5 — Hoàn thiện
+
+Tối ưu ảnh, SEO metadata (<meta>, sitemap.xml, robots.txt)
+
+Viết bài blog đầu tiên ghi lại chính quá trình xây dựng hệ thống này

@@ -1,0 +1,37 @@
+backend:
+  name: github
+  repo: hand240503/my-site   # đổi thành đúng owner/repo của bạn
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - { label: "Excerpt", name: "excerpt", widget: "text" }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "projects"
+    label: "Portfolio Projects"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Role", name: "role", widget: "string" }
+      - { label: "Tech Stack", name: "tech", widget: "list", default: [] }
+      - { label: "Live URL", name: "liveUrl", widget: "string", required: false }
+      - { label: "Repo URL", name: "repoUrl", widget: "string", required: false }
+      - { label: "Cover Image", name: "coverImage", widget: "image" }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Completed At", name: "completedAt", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
