@@ -61,6 +61,18 @@ export async function getProjectBySlug(slug) {
     .use(rehypeStringify)
     .process(content);
 
+  const isProd = process.env.NODE_ENV === "production";
+  let contentHtml = processed.toString();
+  if (isProd) {
+    contentHtml = contentHtml.replaceAll('src="/images/', 'src="/ndh.tech/images/');
+  }
+
+  const coverImage = data.coverImage
+    ? isProd && data.coverImage.startsWith("/images/")
+      ? `/ndh.tech${data.coverImage}`
+      : data.coverImage
+    : null;
+
   return {
     slug,
     title: data.title || slug,
@@ -68,9 +80,9 @@ export async function getProjectBySlug(slug) {
     tech: data.tech || [],
     liveUrl: data.liveUrl || null,
     repoUrl: data.repoUrl || null,
-    coverImage: data.coverImage || null,
+    coverImage,
     featured: !!data.featured,
     completedAt: data.completedAt || null,
-    contentHtml: processed.toString(),
+    contentHtml,
   };
 }

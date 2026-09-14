@@ -55,13 +55,25 @@ export async function getPostBySlug(slug) {
     .use(rehypeStringify)
     .process(content);
 
+  const isProd = process.env.NODE_ENV === "production";
+  let contentHtml = processed.toString();
+  if (isProd) {
+    contentHtml = contentHtml.replaceAll('src="/images/', 'src="/ndh.tech/images/');
+  }
+
+  const coverImage = data.coverImage
+    ? isProd && data.coverImage.startsWith("/images/")
+      ? `/ndh.tech${data.coverImage}`
+      : data.coverImage
+    : null;
+
   return {
     slug,
     title: data.title || slug,
     date: data.date || null,
     tags: data.tags || [],
     excerpt: data.excerpt || "",
-    coverImage: data.coverImage || null,
-    contentHtml: processed.toString(),
+    coverImage,
+    contentHtml,
   };
 }

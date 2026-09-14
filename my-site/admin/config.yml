@@ -3,6 +3,10 @@ backend:
   repo: hand240503/ndh.tech
   branch: main
 
+site_url: https://hand240503.github.io/ndh.tech
+display_url: https://hand240503.github.io/ndh.tech
+local_backend: true
+
 media_folder: "public/images"
 public_folder: "/images"
 
