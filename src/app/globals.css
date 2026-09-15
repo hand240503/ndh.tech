@@ -78,6 +78,34 @@ a {
   outline-offset: 3px;
 }
 
+/* Tắt viền focus khi click chuột (vẫn giữ khi bấm phím Tab) */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Ẩn con trỏ chuột khi đang click trên toàn trang */
+*:active {
+  cursor: none;
+}
+
+/* Giữ lại con trỏ cho các ô nhập liệu (terminal input, form) */
+input, textarea {
+  cursor: text;
+}
+input:active, textarea:active {
+  cursor: text;
+}
+
+/* Ẩn vạch soạn thảo văn bản nhấp nháy khi click trên toàn trang (trừ ô nhập) */
+*:not(input):not(textarea) {
+  caret-color: transparent;
+}
+
+/* Tắt viền xanh/xám highlight khi chạm trên thiết bị cảm ứng */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .wrap {
   max-width: var(--max-w);
   margin-left: auto;
