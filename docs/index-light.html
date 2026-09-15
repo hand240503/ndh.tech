@@ -1,13 +1,31 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{Tên của bạn}} — Network & DevOps Learning Path</title>
+<title>root@portfolio — Systems Administrator (Light)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
+  :root {
+    --bg: #0B1220;
+    --panel: #121B2E;
+    --panel-2: #0E1626;
+    --border: #223047;
+    --text: #E7ECF3;
+    --muted: #7C8AA0;
+    --teal: #4FD1C5;
+    --amber: #F0A93B;
+    --danger: #E2564F;
+    --btn-primary-text: #06201C;
+    --max-w: 920px;
+    --radius-sm: 4px;
+    --radius-lg: 6px;
+    --shadow-panel: none;
+  }
+
+  [data-theme="light"], html[data-theme="light"] {
     --bg: #F5F7FA;
     --panel: #FFFFFF;
     --panel-2: #F0F3F8;
@@ -16,410 +34,807 @@
     --muted: #5B6B84;
     --teal: #0E9488;
     --amber: #B4650F;
-    --radius: 4px;
-    --max-w: 920px;
+    --danger: #DC2626;
+    --btn-primary-text: #FFFFFF;
+    --shadow-panel: 0 1px 2px rgba(16, 24, 38, 0.05);
   }
 
   * { box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
-  body{
-    margin:0;
+  body {
+    margin: 0;
     background: var(--bg);
-    background-image:
-      radial-gradient(600px 300px at 85% -10%, rgba(14,148,136,0.06), transparent 60%),
-      radial-gradient(500px 260px at 10% 0%, rgba(180,101,15,0.05), transparent 60%);
     color: var(--text);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
     font-size: 15px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
-  h1, h2, .display{
-    font-family: 'Space Grotesk', sans-serif;
-  }
+  a { color: var(--teal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
-  a { color: inherit; }
-
-  :focus-visible{
+  :focus-visible {
     outline: 2px solid var(--teal);
     outline-offset: 3px;
   }
 
-  .wrap{
+  .wrap {
+    max-width: var(--max-w);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-left { display: flex; gap: 24px; align-items: center; }
+  .nav-brand {
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-brand .brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 0 3px rgba(14, 148, 136, 0.15);
+  }
+  .nav-links a {
+    color: var(--muted);
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+
+  main {
     max-width: var(--max-w);
     margin: 0 auto;
     padding: 0 24px;
   }
 
-  /* ---------- NAV ---------- */
-  header{
+  section {
+    padding: 56px 0;
     border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: rgba(245,247,250,0.85);
-    backdrop-filter: blur(8px);
-    z-index: 10;
   }
-  nav.wrap{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height: 64px;
-  }
-  .mark{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.02em;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .mark .dot{
-    width:8px; height:8px;
-    border-radius:50%;
-    background: var(--teal);
-    box-shadow: 0 0 0 3px rgba(79,209,197,0.15);
-  }
-  .navlinks{
-    display:flex;
-    gap: 28px;
-    font-size: 13px;
-    color: var(--muted);
-  }
-  .navlinks a{
-    text-decoration:none;
-    transition: color .15s ease;
-  }
-  .navlinks a:hover{ color: var(--text); }
+  section:last-of-type { border-bottom: none; }
 
   /* ---------- HERO ---------- */
-  .hero{
-    padding: 72px 0 56px;
-  }
-  .hero-tag{
-    color: var(--muted);
-    font-size: 13px;
-    margin: 0 0 18px;
-  }
-  .hero h1{
-    font-size: clamp(34px, 5.6vw, 52px);
-    line-height: 1.12;
-    font-weight: 700;
-    margin: 0 0 6px;
-    letter-spacing: -0.01em;
-  }
-  .hero h1 .name{
+  .hero .prompt {
     color: var(--teal);
+    font-size: 13.5px;
+    margin-bottom: 12px;
   }
-  .cursor{
-    display:inline-block;
-    width: 3px;
-    height: 0.9em;
+  .hero .prompt .path { color: var(--amber); }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(34px, 5.6vw, 52px);
+    font-weight: 700;
+    line-height: 1.12;
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .hero h1 .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.05em;
     background: var(--teal);
-    margin-left: 4px;
     vertical-align: -0.1em;
-    animation: blink 1.1s steps(1) infinite;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .cursor{ animation: none; }
-  }
-  @keyframes blink{
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
+    margin-left: 6px;
+    animation: blink 1.1s step-end infinite;
   }
 
-  .badges{
-    display:flex;
+  .hero .role {
+    color: var(--muted);
+    font-size: 16px;
+    margin: 0 0 16px;
+    font-weight: 500;
+  }
+
+  .hero .badges {
+    display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 24px 0 28px;
+    margin-bottom: 20px;
   }
-  .badge{
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 5px 10px;
-    font-size: 12.5px;
-    color: var(--muted);
+  .badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
     background: var(--panel-2);
-  }
-  .badge.active{
-    color: var(--amber);
-    border-color: rgba(240,169,59,0.35);
-  }
-
-  .status-line{
+    border: 1px solid var(--border);
     color: var(--muted);
-    font-size: 13.5px;
-    margin: 0 0 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
-  .status-line .path{ color: var(--text); }
+  .badge.active {
+    color: var(--amber);
+    border-color: rgba(180, 101, 15, 0.4);
+  }
 
-  .cta{
-    display:flex;
+  .hero .tagline {
+    font-size: 15px;
+    max-width: 62ch;
+    margin: 0 0 28px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .hero .actions {
+    display: flex;
     gap: 12px;
     flex-wrap: wrap;
   }
-  .btn{
-    display:inline-block;
-    text-decoration:none;
+
+  .btn {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13.5px;
-    padding: 12px 20px;
-    border-radius: var(--radius);
-    border: 1px solid transparent;
-    transition: transform .12s ease, background .15s ease, border-color .15s ease;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
   }
-  .btn:hover{ transform: translateY(-1px); }
-  .btn-primary{
+  .btn:hover {
+    border-color: var(--teal);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+  .btn.primary {
     background: var(--teal);
-    color: #06201C;
+    color: var(--btn-primary-text);
+    border-color: transparent;
     font-weight: 500;
   }
-  .btn-primary:hover{ background: #63e0d4; }
-  .btn-secondary{
-    border-color: var(--border);
-    color: var(--text);
+  .btn.primary:hover {
+    background: #0d8277;
+    border-color: transparent;
+    color: var(--btn-primary-text);
   }
-  .btn-secondary:hover{ border-color: var(--teal); }
 
-  /* ---------- TRACEROUTE PANEL ---------- */
-  .panel{
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--panel);
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(16,24,38,0.05), 0 8px 24px rgba(16,24,38,0.04);
+  /* ---------- HEADINGS ---------- */
+  h2.section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text);
+    margin: 0 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .panel-head{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding: 12px 18px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    color: var(--muted);
+  h2.section-title .hash {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--amber);
+    font-size: 18px;
+    font-weight: 400;
   }
-  .panel-head .dots{ display:flex; gap:6px; }
-  .panel-head .dots span{
-    width:9px; height:9px; border-radius:50%;
-    background: #C7D0DE;
-  }
-  .panel-body{ padding: 6px 0; }
-  .hop{
-    display:grid;
-    grid-template-columns: 28px 1fr 96px 64px;
-    align-items:center;
-    gap: 14px;
-    padding: 11px 18px;
-    font-size: 13.5px;
-    border-bottom: 1px solid rgba(34,48,71,0.5);
-  }
-  .hop:last-child{ border-bottom: none; }
-  .hop .n{ color: var(--muted); }
-  .hop .target{ color: var(--text); }
-  .hop .target small{ display:block; color: var(--muted); font-size: 11.5px; margin-top:2px; }
-  .hop .days{ color: var(--muted); text-align:right; }
-  .status{
+
+  /* ---------- STATUS PILL ---------- */
+  .status-pill {
+    font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.03em;
     padding: 3px 8px;
     border-radius: 3px;
-    text-align:center;
+    display: inline-flex;
+    align-items: center;
     width: fit-content;
-    justify-self: start;
   }
-  .status.ok{ color: var(--teal); border: 1px solid rgba(79,209,197,0.4); background: rgba(79,209,197,0.08); }
-  .status.learning{
+  .status-pill.ok {
+    color: var(--teal);
+    border: 1px solid rgba(14, 148, 136, 0.4);
+    background: rgba(14, 148, 136, 0.08);
+  }
+  .status-pill.learning {
     color: var(--amber);
-    border: 1px solid rgba(240,169,59,0.4);
-    background: rgba(240,169,59,0.08);
-    position:relative;
+    border: 1px solid rgba(180, 101, 15, 0.4);
+    background: rgba(180, 101, 15, 0.08);
   }
-  .status.learning::before{
-    content:'';
-    display:inline-block;
-    width:5px; height:5px;
-    border-radius:50%;
+  .status-pill.learning::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
     background: var(--amber);
-    margin-right:5px;
+    margin-right: 6px;
     animation: pulse 1.6s ease-in-out infinite;
   }
-  @media (prefers-reduced-motion: reduce){
-    .status.learning::before{ animation: none; }
-  }
-  @keyframes pulse{
-    0%,100%{ opacity:1; }
-    50%{ opacity:0.35; }
-  }
-  .status.queued{ color: var(--muted); border: 1px solid var(--border); }
-
-  section.traceroute{ padding: 0 0 64px; }
-
-  /* ---------- STATS STRIP ---------- */
-  .stats{
-    display:grid;
-    grid-template-columns: repeat(3, 1fr);
+  .status-pill.queued {
+    color: var(--muted);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow:hidden;
-    margin-bottom: 80px;
-    box-shadow: 0 1px 2px rgba(16,24,38,0.05);
+    background: transparent;
   }
-  .stat{
-    padding: 22px 20px;
-    border-left: 1px solid var(--border);
-    border-top: 3px solid var(--teal);
-    background: var(--panel-2);
+
+  /* ---------- SERVICES (skills) ---------- */
+  .service-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
   }
-  .stat:first-child{ border-left: none; }
-  .stat:nth-child(2){ border-top-color: var(--amber); }
-  .stat:nth-child(3){ border-top-color: var(--muted); }
-  .stat .num{
+  .service-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .service-list li:last-child { border-bottom: none; }
+  .svc-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .svc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .svc-dot.active {
+    background: var(--teal);
+    box-shadow: 0 0 6px var(--teal);
+  }
+  .svc-dot.learning {
+    background: var(--amber);
+  }
+  .svc-name {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* ---------- LOG (posts/projects) ---------- */
+  .log-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .log-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .log-item:last-child { border-bottom: none; }
+  .log-id {
+    color: var(--muted);
+    font-size: 13px;
+    padding-top: 2px;
+  }
+  .log-body h3 {
+    margin: 0 0 6px;
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
   }
-  .stat .label{
+  .log-body h3 a {
+    color: inherit;
+  }
+  .log-body h3 a:hover {
+    color: var(--teal);
+    text-decoration: none;
+  }
+  .log-body p {
+    margin: 0;
     color: var(--muted);
-    font-size: 12.5px;
-    margin-top: 4px;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .log-tag {
+    font-size: 11.5px;
+    color: var(--muted);
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    align-self: start;
   }
 
-  footer{
+  /* ---------- CONTACT ---------- */
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
+  .contact-list li {
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+  }
+  .contact-list .k {
+    color: var(--muted);
+    display: inline-block;
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  footer {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+    font-size: 12.5px;
+    color: var(--muted);
     border-top: 1px solid var(--border);
-    padding: 22px 0 40px;
-    color: var(--muted);
-    font-size: 12.5px;
   }
 
-  @media (max-width: 680px){
-    .navlinks{ display:none; }
-    .hop{ grid-template-columns: 22px 1fr 84px; }
-    .hop .days{ display:none; }
-    .stats{ grid-template-columns: 1fr; }
-    .stat{ border-left:none; border-top: 1px solid var(--border); }
-    .stat:first-child{ border-top:none; }
-    .stat:nth-child(1){ border-top-color: var(--teal); border-top-width:3px; }
-    .stat:nth-child(2){ border-top-color: var(--amber); border-top-width:3px; }
-    .stat:nth-child(3){ border-top-color: var(--muted); border-top-width:3px; }
+  /* ---------- TERMINAL COMPONENT ---------- */
+  #term-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-panel);
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  #term-toggle:hover {
+    color: var(--text);
+    border-color: var(--teal);
+  }
+  #term-toggle .blink {
+    color: var(--teal);
+    animation: blink 1.1s step-end infinite;
+  }
+  #term-toggle .hint {
+    margin-left: auto;
+    font-size: 11.5px;
+    opacity: 0.8;
+  }
+
+  #terminal {
+    height: 0;
+    overflow: hidden;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-panel);
+    transition: height 0.22s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  #terminal.open {
+    height: min(52vh, 440px);
+    margin-top: 14px;
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--panel-2);
+    flex: none;
+  }
+  .term-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .term-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .term-dot.r { background: #DC2626; }
+  .term-dot.y { background: #B4650F; }
+  .term-dot.g { background: #0E9488; }
+  .term-bar .title { margin-left: 8px; }
+  .term-bar .close {
+    margin-left: auto;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 13px;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .term-bar .close:hover {
+    color: var(--danger);
+  }
+
+  #term-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--text);
+  }
+  #term-output .line { margin: 0 0 4px; }
+  #term-output .prompt-echo { color: var(--teal); }
+  #term-output .prompt-echo .p { color: var(--amber); }
+  #term-output .err { color: var(--danger); }
+  #term-output a { color: var(--teal); }
+  #term-output b { color: var(--text); font-weight: 600; }
+
+  .term-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    background: var(--panel-2);
+    flex: none;
+  }
+  .term-input-row .p { color: var(--amber); }
+  #term-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+  #term-input:focus { outline: none; }
+
+  /* ---------- KEYFRAMES & ACCESSIBILITY ---------- */
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    #terminal { transition: none; }
+    .hero h1 .cursor,
+    #term-toggle .blink,
+    .status-pill.learning::before {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 680px) {
+    header.nav { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .nav-left { flex-wrap: wrap; gap: 16px; }
+    .nav-right { width: 100%; justify-content: space-between; }
+    .log-item { grid-template-columns: 44px 1fr; }
+    .log-tag { grid-column: 2; justify-self: start; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <nav class="wrap">
-    <div class="mark"><span class="dot"></span>nw / devops</div>
-    <div class="navlinks">
-      <a href="#top">Trang chủ</a>
-      <a href="#traceroute">Lộ trình</a>
-      <a href="#">Nhật ký</a>
-      <a href="#">Dự án</a>
-      <a href="#">Liên hệ</a>
-    </div>
-  </nav>
+<header class="nav">
+  <div class="nav-left">
+    <span class="nav-brand"><span class="brand-dot"></span>ten-ban.sh</span>
+    <nav class="nav-links">
+      <a href="#posts">posts</a>
+      <a href="#projects">projects</a>
+      <a href="#services">skills</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+  <div class="nav-right">
+    <span>uptime: 128d · helpdesk lvl2</span>
+    <a href="index.html" style="font-size:12px; color:var(--muted); border:1px solid var(--border); padding:4px 8px; border-radius:4px;">Chuyển Dark</a>
+  </div>
 </header>
 
-<main id="top">
-  <section class="hero wrap">
-    <p class="hero-tag">$ whoami</p>
-    <h1>
-      Học mạng. Dựng hạ tầng.<br>
-      Ghi lại từng bước.<br>
-      <span class="name">{{Tên của bạn}}</span><span class="cursor"></span>
-    </h1>
+<main>
+
+  <section class="hero" id="top">
+    <div class="prompt"><span class="path">visitor@ten-ban.sh</span>:~$ whoami</div>
+    <h1>Nguyễn Văn A<span class="cursor"></span></h1>
+    <p class="role">Systems Administrator · IT Helpdesk</p>
 
     <div class="badges">
       <span class="badge active">CCNA — đang ôn</span>
       <span class="badge">Networking Fundamentals</span>
-      <span class="badge">Linux</span>
-      <span class="badge">Docker</span>
+      <span class="badge">Linux Administration</span>
+      <span class="badge">Docker Containers</span>
     </div>
 
-    <p class="status-line">
-      $ pwd <br>
-      <span class="path">/learning / network-devops / {{thành phố của bạn}}</span>
+    <p class="tagline">
+      Mình ghi lại những gì học được khi vận hành hệ thống, xử lý ticket, và vài dự án tự tay làm.
+      Trang này vừa là portfolio, vừa là blog cá nhân theo phong cách terminal trực quan.
     </p>
 
-    <div class="cta">
-      <a class="btn btn-primary" href="#traceroute">Xem lộ trình học</a>
-      <a class="btn btn-secondary" href="#">Đọc nhật ký</a>
+    <div class="actions">
+      <a class="btn primary" href="#posts">Xem bài viết</a>
+      <a class="btn" href="#" download>Tải CV</a>
+      <button class="btn" id="hero-open-term">Mở terminal ▾</button>
     </div>
   </section>
 
-  <section class="traceroute wrap" id="traceroute">
-    <div class="panel">
-      <div class="panel-head">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <span>bash — traceroute ./learning-path</span>
+  <section id="terminal-section" style="padding-top: 32px; padding-bottom: 32px;">
+    <div id="term-toggle">
+      <span class="blink">●</span> visitor@ten-ban.sh:~$ <span class="hint">nhấn để mở · phím tắt: `</span>
+    </div>
+
+    <div id="terminal" role="region" aria-label="Terminal điều hướng">
+      <div class="term-bar">
+        <div class="term-dots">
+          <span class="term-dot r"></span>
+          <span class="term-dot y"></span>
+          <span class="term-dot g"></span>
+        </div>
+        <span class="title">visitor@ten-ban.sh — bash</span>
+        <span class="close" id="term-close" title="Đóng terminal (Esc)">✕</span>
       </div>
-      <div class="panel-body">
-        <div class="hop">
-          <span class="n">1</span>
-          <span class="target">networking-fundamentals<small>OSI, TCP/IP, subnetting</small></span>
-          <span class="status ok">OK</span>
-          <span class="days">{{32}}d</span>
-        </div>
-        <div class="hop">
-          <span class="n">2</span>
-          <span class="target">ccna-routing-switching<small>VLAN, OSPF, STP</small></span>
-          <span class="status learning">LEARNING</span>
-          <span class="days">{{18}}d</span>
-        </div>
-        <div class="hop">
-          <span class="n">3</span>
-          <span class="target">linux-administration<small>shell, systemd, networking tools</small></span>
-          <span class="status queued">QUEUED</span>
-          <span class="days">—</span>
-        </div>
-        <div class="hop">
-          <span class="n">4</span>
-          <span class="target">docker-containers<small>images, compose, registries</small></span>
-          <span class="status queued">QUEUED</span>
-          <span class="days">—</span>
-        </div>
-        <div class="hop">
-          <span class="n">5</span>
-          <span class="target">kubernetes<small>pods, services, deployments</small></span>
-          <span class="status queued">QUEUED</span>
-          <span class="days">—</span>
-        </div>
-        <div class="hop">
-          <span class="n">6</span>
-          <span class="target">terraform-ci-cd<small>IaC, pipelines, automation</small></span>
-          <span class="status queued">QUEUED</span>
-          <span class="days">—</span>
-        </div>
+      <div id="term-output"></div>
+      <div class="term-input-row">
+        <span class="p">visitor@ten-ban.sh:~$</span>
+        <input id="term-input" type="text" autocomplete="off" spellcheck="false" aria-label="Nhập lệnh">
       </div>
     </div>
   </section>
 
-  <section class="wrap">
-    <div class="stats">
-      <div class="stat">
-        <div class="num">{{32}}</div>
-        <div class="label">ngày ghi nhật ký liên tục</div>
-      </div>
-      <div class="stat">
-        <div class="num">1</div>
-        <div class="label">chứng chỉ đang theo đuổi — CCNA</div>
-      </div>
-      <div class="stat">
-        <div class="num">6</div>
-        <div class="label">chặng trong lộ trình học</div>
-      </div>
-    </div>
+  <section id="services">
+    <h2 class="section-title"><span class="hash">#</span>systemctl status — kỹ năng</h2>
+    <ul class="service-list">
+      <li>
+        <div class="svc-left">
+          <span class="svc-dot active"></span>
+          <span class="svc-name">windows-server-admin.service</span>
+        </div>
+        <span class="status-pill ok">active (running)</span>
+      </li>
+      <li>
+        <div class="svc-left">
+          <span class="svc-dot active"></span>
+          <span class="svc-name">networking-troubleshoot.service</span>
+        </div>
+        <span class="status-pill ok">active (running)</span>
+      </li>
+      <li>
+        <div class="svc-left">
+          <span class="svc-dot active"></span>
+          <span class="svc-name">helpdesk-ticketing.service</span>
+        </div>
+        <span class="status-pill ok">active (running)</span>
+      </li>
+      <li>
+        <div class="svc-left">
+          <span class="svc-dot learning"></span>
+          <span class="svc-name">python-automation.service</span>
+        </div>
+        <span class="status-pill learning">learning</span>
+      </li>
+      <li>
+        <div class="svc-left">
+          <span class="svc-dot learning"></span>
+          <span class="svc-name">linux-admin.service</span>
+        </div>
+        <span class="status-pill learning">learning</span>
+      </li>
+    </ul>
   </section>
+
+  <section id="posts">
+    <h2 class="section-title"><span class="hash">#</span>log — bài viết gần đây</h2>
+    <ul class="log-list" id="post-log"></ul>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title"><span class="hash">#</span>log — dự án đã làm</h2>
+    <ul class="log-list" id="project-log"></ul>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title"><span class="hash">#</span>contact --info</h2>
+    <ul class="contact-list">
+      <li><span class="k">email</span> <a href="mailto:ban@example.com">ban@example.com</a></li>
+      <li><span class="k">github</span> <a href="https://github.com/ten-ban" target="_blank" rel="noreferrer">github.com/ten-ban</a></li>
+      <li><span class="k">linkedin</span> <a href="https://linkedin.com/in/ten-ban" target="_blank" rel="noreferrer">linkedin.com/in/ten-ban</a></li>
+    </ul>
+  </section>
+
 </main>
 
-<footer class="wrap">
-  {{Tên của bạn}} · cập nhật lộ trình học Network & DevOps
-</footer>
+<footer>© 2026 ten-ban.sh — Light Theme Demo (design-system.md)</footer>
+
+<script>
+(function(){
+  const posts = [
+    { id:"041", title:"Fix lỗi AD replication trên 3 site", tag:"Active Directory",
+      body:"Ghi lại cách chẩn đoán và xử lý lỗi replication giữa các domain controller ở 3 chi nhánh." },
+    { id:"040", title:"Setup Zabbix giám sát 50 máy trạm", tag:"Monitoring",
+      body:"Các bước cài đặt agent, tạo template, và thiết lập cảnh báo qua Telegram." },
+    { id:"039", title:"Checklist xử lý ticket helpdesk hiệu quả", tag:"Helpdesk",
+      body:"Quy trình tiếp nhận – phân loại – xử lý – đóng ticket giúp giảm thời gian phản hồi." }
+  ];
+
+  const projects = [
+    { id:"P03", title:"Script tự động backup cấu hình switch/router", tag:"Automation",
+      body:"Python + Netmiko, chạy định kỳ và lưu log về server nội bộ." },
+    { id:"P02", title:"Dashboard theo dõi uptime nội bộ", tag:"Monitoring",
+      body:"Grafana + Zabbix cho toàn bộ hạ tầng phòng IT." }
+  ];
+
+  function renderLog(list, data){
+    list.innerHTML = data.map(item => `
+      <li class="log-item">
+        <span class="log-id">#${item.id}</span>
+        <div class="log-body">
+          <h3><a href="#${item.id}">${item.title}</a></h3>
+          <p>${item.body}</p>
+        </div>
+        <span class="log-tag">${item.tag}</span>
+      </li>
+    `).join("");
+  }
+  renderLog(document.getElementById("post-log"), posts);
+  renderLog(document.getElementById("project-log"), projects);
+
+  const term = document.getElementById("terminal");
+  const toggleBar = document.getElementById("term-toggle");
+  const closeBtn = document.getElementById("term-close");
+  const input = document.getElementById("term-input");
+  const output = document.getElementById("term-output");
+  const heroOpenBtn = document.getElementById("hero-open-term");
+
+  function openTerm(){
+    term.classList.add("open");
+    toggleBar.style.display = "none";
+    input.focus();
+  }
+  function closeTerm(){
+    term.classList.remove("open");
+    toggleBar.style.display = "flex";
+  }
+  toggleBar.addEventListener("click", openTerm);
+  heroOpenBtn.addEventListener("click", openTerm);
+  closeBtn.addEventListener("click", closeTerm);
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "`" && document.activeElement !== input){
+      e.preventDefault();
+      term.classList.contains("open") ? closeTerm() : openTerm();
+    }
+    if(e.key === "Escape" && term.classList.contains("open")){
+      closeTerm();
+    }
+  });
+
+  function printEcho(cmd){
+    const line = document.createElement("div");
+    line.className = "line prompt-echo";
+    line.innerHTML = `<span class="p">visitor@ten-ban.sh:~$</span> ${escapeHtml(cmd)}`;
+    output.appendChild(line);
+  }
+  function printLine(html, cls){
+    const line = document.createElement("div");
+    line.className = "line" + (cls ? " " + cls : "");
+    line.innerHTML = html;
+    output.appendChild(line);
+  }
+  function escapeHtml(s){
+    return s.replace(/[&<>"']/g, c => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[c]));
+  }
+  function scrollBottom(){ output.scrollTop = output.scrollHeight; }
+
+  function welcome(){
+    printLine(`Chào mừng đến với terminal portfolio! Gõ <b>help</b> để xem danh sách lệnh hỗ trợ.`);
+  }
+  welcome();
+
+  const commands = {
+    help(){
+      printLine([
+        "Các lệnh có sẵn:",
+        "  whoami            — giới thiệu về bản thân",
+        "  services          — trạng thái các service/kỹ năng",
+        "  posts             — danh sách bài viết gần đây",
+        "  projects          — danh sách dự án",
+        "  search &lt;từ khóa&gt;   — tìm bài viết theo từ khóa",
+        "  open &lt;id&gt;           — mở nhanh bài viết/dự án (vd: open 041)",
+        "  contact           — thông tin liên hệ",
+        "  clear             — xoá màn hình",
+      ].join("\n"));
+    },
+    whoami(){
+      printLine("Nguyễn Văn A — Systems Administrator / IT Helpdesk.\nThích ghi chép lại mọi thứ học được khi vận hành hệ thống, tối ưu hạ tầng mạng.");
+    },
+    services(){
+      printLine([
+        "● windows-server-admin.service    [active (running)]",
+        "● networking-troubleshoot.service [active (running)]",
+        "● helpdesk-ticketing.service      [active (running)]",
+        "○ python-automation.service       [learning]",
+        "○ linux-admin.service             [learning]",
+      ].join("\n"));
+    },
+    posts(){
+      printLine(posts.map(p => `#${p.id}  ${p.title}  [${p.tag}]`).join("\n"));
+    },
+    projects(){
+      printLine(projects.map(p => `#${p.id}  ${p.title}  [${p.tag}]`).join("\n"));
+    },
+    contact(){
+      printLine("email:    ban@example.com\ngithub:   github.com/ten-ban\nlinkedin: linkedin.com/in/ten-ban");
+    },
+    clear(){
+      output.innerHTML = "";
+    },
+    search(args){
+      const kw = args.join(" ").toLowerCase();
+      if(!kw){ printLine("Dùng: search &lt;từ khóa&gt;", "err"); return; }
+      const results = [...posts, ...projects].filter(p =>
+        p.title.toLowerCase().includes(kw) || p.tag.toLowerCase().includes(kw) || p.body.toLowerCase().includes(kw)
+      );
+      if(results.length === 0){ printLine(`Không tìm thấy kết quả cho "${escapeHtml(kw)}".`); return; }
+      printLine(`Tìm thấy ${results.length} kết quả:\n` + results.map(p => `#${p.id}  ${p.title}`).join("\n"));
+    },
+    open(args){
+      const id = (args[0] || "").toUpperCase().replace("#","");
+      const item = [...posts, ...projects].find(p => p.id.toUpperCase() === id);
+      if(!item){ printLine(`Không tìm thấy id "${escapeHtml(args[0]||"")}".`, "err"); return; }
+      printLine(`<b>#${item.id} — ${item.title}</b>\n${item.body}\n[tag: ${item.tag}]`);
+    }
+  };
+
+  input.addEventListener("keydown", (e) => {
+    if(e.key !== "Enter") return;
+    const raw = input.value.trim();
+    input.value = "";
+    if(!raw) return;
+    printEcho(raw);
+    const [cmd, ...args] = raw.split(/\s+/);
+    const fn = commands[cmd.toLowerCase()];
+    if(fn){ fn(args); }
+    else { printLine(`bash: ${escapeHtml(cmd)}: không tìm thấy lệnh. Gõ "help" để xem danh sách.`, "err"); }
+    scrollBottom();
+  });
+})();
+</script>
 
 </body>
 </html>

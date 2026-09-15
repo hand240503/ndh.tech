@@ -40,27 +40,35 @@ export default function RootLayout({ children }) {
               className="font-space font-bold text-[15px] tracking-wide flex items-center gap-2 text-theme-text hover:text-theme-teal transition-colors"
             >
               <span className="w-2 h-2 rounded-full bg-theme-teal shadow-[0_0_0_3px_rgba(79,209,197,0.15)] inline-block"></span>
-              <span>nw / devops</span>
+              <span>ten-ban.sh</span>
             </Link>
             <div className="flex items-center gap-5">
-              <div className="hidden sm:flex gap-7 text-[13px] text-theme-muted">
+              <div className="hidden sm:flex gap-6 text-[13px] text-theme-muted font-mono">
                 <Link href="/" className="hover:text-theme-text transition-colors">
                   Trang chủ
                 </Link>
-                <Link href="/#traceroute" className="hover:text-theme-text transition-colors">
-                  Lộ trình
+                <Link href="/#services" className="hover:text-theme-text transition-colors">
+                  Kỹ năng
                 </Link>
                 <Link href="/blog" className="hover:text-theme-text transition-colors">
-                  Nhật ký
+                  Bài viết
                 </Link>
                 <Link href="/projects" className="hover:text-theme-text transition-colors">
                   Dự án
+                </Link>
+                <Link href="/#contact" className="hover:text-theme-text transition-colors">
+                  Liên hệ
                 </Link>
                 <Link href="/design-system" className="text-theme-teal hover:underline transition-colors">
                   Design System
                 </Link>
               </div>
-              <ThemeToggle />
+              <div className="flex items-center gap-4">
+                <span className="hidden lg:inline text-xs text-theme-muted font-mono">
+                  uptime: 128d · helpdesk lvl2
+                </span>
+                <ThemeToggle />
+              </div>
             </div>
           </nav>
         </header>

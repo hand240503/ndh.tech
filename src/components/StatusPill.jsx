@@ -1,6 +1,7 @@
 export default function StatusPill({
   status = "QUEUED",
   className = "",
+  children,
   ...props
 }) {
   const normalizedStatus = status.toUpperCase();
@@ -14,7 +15,7 @@ export default function StatusPill({
         className={`${baseStyles} text-theme-teal border-[rgba(79,209,197,0.4)] bg-[rgba(79,209,197,0.08)] ${className}`.trim()}
         {...props}
       >
-        OK
+        {children || "OK"}
       </span>
     );
   }
@@ -26,7 +27,7 @@ export default function StatusPill({
         {...props}
       >
         <span className="inline-block w-[5px] h-[5px] rounded-full bg-theme-amber mr-[5px] animate-pulse-slow"></span>
-        LEARNING
+        {children || "LEARNING"}
       </span>
     );
   }
@@ -37,7 +38,7 @@ export default function StatusPill({
       className={`${baseStyles} text-theme-muted border-theme-border bg-transparent ${className}`.trim()}
       {...props}
     >
-      QUEUED
+      {children || "QUEUED"}
     </span>
   );
 }
