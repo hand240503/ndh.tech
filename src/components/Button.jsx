@@ -12,7 +12,7 @@ export default function Button({
 
   const variantStyles =
     variant === "primary"
-      ? "bg-theme-teal text-[#06201C] font-medium border-transparent hover:bg-[#63e0d4]"
+      ? "bg-theme-teal text-[var(--btn-primary-text)] font-medium border-transparent hover:bg-[#63e0d4]"
       : "bg-transparent text-theme-text border-theme-border hover:border-theme-teal";
 
   const combinedStyles = `${baseStyles} ${variantStyles} ${className}`.trim();

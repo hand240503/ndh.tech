@@ -15,6 +15,8 @@
   --amber: #F0A93B;
   --radius: 4px;
   --max-w: 920px;
+  --nav-bg: rgba(11, 18, 32, 0.85);
+  --btn-primary-text: #06201C;
 }
 
 [data-theme="light"] {
@@ -26,6 +28,8 @@
   --muted: #5B6B84;
   --teal: #0E9488;
   --amber: #B4650F;
+  --nav-bg: rgba(245, 247, 250, 0.85);
+  --btn-primary-text: #FFFFFF;
 }
 
 * {
@@ -48,12 +52,17 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 [data-theme="light"] body {
   background-image:
     radial-gradient(600px 300px at 85% -10%, rgba(14, 148, 136, 0.06), transparent 60%),
     radial-gradient(500px 260px at 10% 0%, rgba(180, 101, 15, 0.05), transparent 60%);
+}
+
+[data-theme="light"] .border-theme-border {
+  box-shadow: 0 1px 2px rgba(16, 24, 38, 0.05);
 }
 
 h1, h2, h3, .display {

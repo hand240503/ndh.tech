@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin", "vietnamese"],
@@ -24,8 +25,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi" className={`${spaceGrotesk.variable} ${ibmPlexMono.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="light"){document.documentElement.setAttribute("data-theme","light");}}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="font-mono bg-theme-bg text-theme-text min-h-screen">
-        <header className="border-b border-theme-border sticky top-0 bg-[rgba(11,18,32,0.85)] backdrop-blur-md z-10">
+        <header className="border-b border-theme-border sticky top-0 bg-[var(--nav-bg)] backdrop-blur-md z-10 transition-colors">
           <nav className="wrap flex items-center justify-between h-16">
             <Link
               href="/"
@@ -34,22 +42,25 @@ export default function RootLayout({ children }) {
               <span className="w-2 h-2 rounded-full bg-theme-teal shadow-[0_0_0_3px_rgba(79,209,197,0.15)] inline-block"></span>
               <span>nw / devops</span>
             </Link>
-            <div className="hidden sm:flex gap-7 text-[13px] text-theme-muted">
-              <Link href="/" className="hover:text-theme-text transition-colors">
-                Trang chủ
-              </Link>
-              <Link href="/#traceroute" className="hover:text-theme-text transition-colors">
-                Lộ trình
-              </Link>
-              <Link href="/blog" className="hover:text-theme-text transition-colors">
-                Nhật ký
-              </Link>
-              <Link href="/projects" className="hover:text-theme-text transition-colors">
-                Dự án
-              </Link>
-              <Link href="/design-system" className="text-theme-teal hover:underline transition-colors">
-                Design System
-              </Link>
+            <div className="flex items-center gap-5">
+              <div className="hidden sm:flex gap-7 text-[13px] text-theme-muted">
+                <Link href="/" className="hover:text-theme-text transition-colors">
+                  Trang chủ
+                </Link>
+                <Link href="/#traceroute" className="hover:text-theme-text transition-colors">
+                  Lộ trình
+                </Link>
+                <Link href="/blog" className="hover:text-theme-text transition-colors">
+                  Nhật ký
+                </Link>
+                <Link href="/projects" className="hover:text-theme-text transition-colors">
+                  Dự án
+                </Link>
+                <Link href="/design-system" className="text-theme-teal hover:underline transition-colors">
+                  Design System
+                </Link>
+              </div>
+              <ThemeToggle />
             </div>
           </nav>
         </header>
